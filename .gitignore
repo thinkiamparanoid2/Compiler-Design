@@ -1,0 +1,32 @@
+# Compiled Object Files and Executables
+*.o
+*.obj
+*.exe
+*.out
+a.exe
+a.out
+two_pass_compiler.exe
+
+# Flex & Bison Generated Intermediate Source Files
+lex.yy.c
+lex.yy.cc
+y.tab.c
+y.tab.h
+y.tab.cc
+y.output
+location.hh
+position.hh
+stack.hh
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+
+# OS & Editor generated files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~
