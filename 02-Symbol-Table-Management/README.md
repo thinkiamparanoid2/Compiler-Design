@@ -1,7 +1,7 @@
-# Lab 2: Symbol Table & Scope Management
+# Phase 2: Symbol Table & Scope Management
 
 ## 📖 Overview
-In **Lab 2**, we implement a hierarchical, object-oriented **Symbol Table** data structure in C++ and integrate it with our Flex scanner and Bison parser.
+In **Phase 2**, we implement a hierarchical, object-oriented **Symbol Table** data structure in C++ and integrate it with our Flex scanner and Bison parser.
 
 The Symbol Table is a crucial component of any compiler:
 - It tracks all identifiers (variables, arrays, functions) across nested lexical scopes (global scope, functions, conditional blocks, and loops).

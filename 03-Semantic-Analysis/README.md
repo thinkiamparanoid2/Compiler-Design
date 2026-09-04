@@ -1,7 +1,7 @@
-# Lab 3: Semantic Analysis & Type Checking
+# Phase 3: Semantic Analysis & Type Checking
 
 ## 📖 Overview
-In **Lab 3**, we extend our compiler frontend with a comprehensive **Semantic Analyzer** and **Type Checker**. 
+In **Phase 3**, we extend our compiler frontend with a comprehensive **Semantic Analyzer** and **Type Checker**. 
 
 While Syntax Analysis verifies that code follows valid grammatical patterns, Semantic Analysis ensures that the code has coherent meaning and conforms to the language's type system and scoping rules. The semantic analyzer traverses the parse tree, queries the Symbol Table, propagates data types, and reports meaningful compile-time semantic errors.
 

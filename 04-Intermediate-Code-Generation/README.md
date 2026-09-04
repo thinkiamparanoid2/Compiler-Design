@@ -1,7 +1,7 @@
-# Lab 4: Intermediate Code Generation (Two-Pass Compiler)
+# Phase 4: Intermediate Code Generation (Two-Pass Compiler)
 
 ## 📖 Overview
-In **Lab 4**, we implement a full **Two-Pass Compiler** that translates high-level C programs into machine-independent **Three-Address Code (TAC)**.
+In **Phase 4**, we implement a full **Two-Pass Compiler** that translates high-level C programs into machine-independent **Three-Address Code (TAC)**.
 
 ### The Two-Pass Architecture:
 1. **Pass 1 (Frontend — Flex & Bison):**

@@ -1,7 +1,7 @@
-# Lab 1: Lexical Analyzer & Syntax Analyzer
+# Phase 1: Lexical Analyzer & Syntax Analyzer
 
 ## 📖 Overview
-In **Lab 1**, we design and implement the first two fundamental phases of a C compiler frontend:
+In **Phase 1**, we design and implement the first two fundamental phases of a C compiler frontend:
 1. **Lexical Analysis (Scanning)** using **Flex**: Converts raw source text into a stream of categorized tokens, while stripping whitespace and tracking source line numbers.
 2. **Syntax Analysis (Parsing)** using **Bison / Yacc**: Validates that the token stream adheres to the Context-Free Grammar (CFG) for a subset of the C programming language, constructs parse trees, resolves operator ambiguities (such as the classic dangling-else problem), and logs grammar production derivations.
 

@@ -8,7 +8,7 @@
 
 This repository contains the end-to-end implementation of a **C Compiler Frontend and Intermediate Code Generator** developed for **CSE420: Compiler Design**.
 
-Spanning four progressive laboratory modules, this project covers the entire compiler pipeline from raw lexical scanning and context-free grammar parsing to hierarchical symbol tables, compile-time semantic analysis, and two-pass Three-Address Code (TAC) generation.
+Organized by actual compiler design phases, this project covers the entire compiler pipeline from raw lexical scanning and context-free grammar parsing to hierarchical symbol tables, compile-time semantic analysis, and two-pass Three-Address Code (TAC) generation.
 
 ---
 
@@ -43,25 +43,25 @@ flowchart TD
 
 ---
 
-## 🗂️ Lab Directory & Modules Breakdown
+## 🗂️ Compiler Phases Breakdown
 
-| Lab Module | Topic | Core Technologies | Primary Input / Output | Documentation |
+| Phase Directory | Compiler Design Step | Core Technologies | Primary Input / Output | Documentation |
 | :--- | :--- | :--- | :--- | :--- |
-| **[LAB 1](LAB1/)** | **Lexical Analysis & Syntax Analysis** | Flex, Bison (Yacc), C++ | `input.txt` $\to$ `log.txt` (Derivations) | [LAB 1 Guide](LAB1/README.md) |
-| **[LAB 2](LAB2/)** | **Symbol Table & Scope Management** | C++, Chained Hash Tables | `input1.c` $\to$ `my_log.txt` (Scope Tables) | [LAB 2 Guide](LAB2/README.md) |
-| **[LAB 3](LAB3/)** | **Semantic Analysis & Type Checking** | Bison, Flex, Scoped Symbol Table | `input1.c` $\to$ `error.txt` & `log.txt` | [LAB 3 Guide](LAB3/README.md) |
-| **[LAB 4](LAB4/)** | **Intermediate Code Generation (ICG)** | Two-Pass Compiler, AST, TAC | `input1.c` $\to$ `code.txt` (3-Address Code) | [LAB 4 Guide](LAB4/README.md) |
+| **[`01-Lexical-and-Syntax-Analysis`](01-Lexical-and-Syntax-Analysis/)** | **Lexical & Syntax Analysis (Scanning & Parsing)** | Flex, Bison (Yacc), C++ | `input.txt` $\to$ `log.txt` (Derivations) | [Phase 1 Guide](01-Lexical-and-Syntax-Analysis/README.md) |
+| **[`02-Symbol-Table-Management`](02-Symbol-Table-Management/)** | **Symbol Table & Hierarchical Scoping** | C++, Chained Hash Tables | `input1.c` $\to$ `my_log.txt` (Scope Tables) | [Phase 2 Guide](02-Symbol-Table-Management/README.md) |
+| **[`03-Semantic-Analysis`](03-Semantic-Analysis/)** | **Semantic Analysis & Type Checking** | Bison, Flex, Scoped Symbol Table | `input1.c` $\to$ `error.txt` & `log.txt` | [Phase 3 Guide](03-Semantic-Analysis/README.md) |
+| **[`04-Intermediate-Code-Generation`](04-Intermediate-Code-Generation/)** | **Intermediate Code Generation (Two-Pass TAC)** | Two-Pass Compiler, AST, TAC | `input1.c` $\to$ `code.txt` (3-Address Code) | [Phase 4 Guide](04-Intermediate-Code-Generation/README.md) |
 
 ---
 
-## 🔬 Deep Dive: Laboratory Modules
+## 🔬 Deep Dive: Compiler Phases
 
-### 🔹 [Lab 1: Lexical Analyzer & Syntax Analyzer](LAB1/)
+### 🔹 [01. Lexical & Syntax Analysis](01-Lexical-and-Syntax-Analysis/)
 - **Scanner (`lexical_analyzer.l`)**: Uses regular expressions in Flex to tokenize C keywords (`if`, `else`, `for`, `while`, `int`, `float`, `void`, `return`, `println`), numeric constants (integers, floating-point with exponents), identifiers, operators, and delimiters while tracking line numbers.
 - **Parser (`syntax_analyzer.y`)**: Validates the token stream against Context-Free Grammar (CFG) rules in Bison, handles operator precedence, resolves the classic dangling-else ambiguity, and logs grammar reductions step-by-step.
 - **Data Structure**: `symbol_info` for lexeme encapsulation.
 
-### 🔹 [Lab 2: Symbol Table & Scope Management](LAB2/)
+### 🔹 [02. Symbol Table & Scope Management](02-Symbol-Table-Management/)
 - **Scope Hierarchy**: Implements nested lexical scopes via a stack of `scope_table` instances (`parent_scope` linkage).
 - **Fast Lookup**: Each `scope_table` uses a Hash Table with separate chaining (`std::vector<std::list<symbol_info*>>`) and polynomial string hashing.
 - **Scope Operations**:
@@ -70,7 +70,7 @@ flowchart TD
   - `insert()`: Adds symbol into current scope, preventing intra-scope duplicates.
   - `lookup()`: Searches locally, then traverses upward through parent scopes to global scope.
 
-### 🔹 [Lab 3: Semantic Analysis & Type Checking](LAB3/)
+### 🔹 [03. Semantic Analysis & Type Checking](03-Semantic-Analysis/)
 - **Static Semantic Validation**: Traverses parse derivations, queries the Symbol Table, and intercepts invalid C code:
   - Multiple variable declarations in the same scope (while preserving valid variable shadowing across outer/inner scopes).
   - Use of undeclared variables or undefined functions.
@@ -79,9 +79,9 @@ flowchart TD
   - Array indexing checks (subscripts must evaluate strictly to integer).
   - Misuse of `void` function return values in arithmetic/relational expressions.
   - Modulo operator operand constraints (both operands must be integer).
-- **Viva Preparation**: Includes [`viva_prep.md`](LAB3/viva_prep.md) summarizing core architectural Q&A.
+- **Viva Preparation**: Includes [`viva_prep.md`](03-Semantic-Analysis/viva_prep.md) summarizing core architectural Q&A.
 
-### 🔹 [Lab 4: Intermediate Code Generation (Two-Pass Compiler)](LAB4/)
+### 🔹 [04. Intermediate Code Generation (Two-Pass Compiler)](04-Intermediate-Code-Generation/)
 - **Two-Pass Compiler Architecture**:
   - **Pass 1 (Flex & Bison)**: Validates syntax/semantics and dynamically constructs a polymorphic **Abstract Syntax Tree (AST)** using an object-oriented node hierarchy (`ProgramNode`, `FuncDefNode`, `BlockNode`, `IfNode`, `WhileNode`, `ForNode`, `AssignNode`, `BinaryOpNode`, `ArrayAccessNode`, etc.).
   - **Pass 2 (`ThreeAddrCodeGenerator`)**: Only executes when Pass 1 reports zero errors. Recursively traverses the AST post-order to generate clean **Three-Address Code (TAC)**.
@@ -90,7 +90,7 @@ flowchart TD
   - **Branching & Loops**: Generates jump labels (`L0, L1, ...`) and conditional jumps (`if_false t0 goto L0`).
   - **Array Access**: Byte-offset address calculation ($4 \times \text{index}$).
   - **Register Caching**: Avoids redundant variable reloads.
-- **Viva Guides**: Complete tutorial and question bank in [`LAB4_COMPLETE_TUTORIAL_AND_VIVA_GUIDE.md`](LAB4/LAB4_COMPLETE_TUTORIAL_AND_VIVA_GUIDE.md).
+- **Viva Guides**: Complete tutorial and question bank in [`LAB4_COMPLETE_TUTORIAL_AND_VIVA_GUIDE.md`](04-Intermediate-Code-Generation/LAB4_COMPLETE_TUTORIAL_AND_VIVA_GUIDE.md).
 
 ---
 
@@ -127,25 +127,25 @@ brew install flex bison gcc
 
 ---
 
-## ⚡ Quick Start: Running Any Lab
+## ⚡ Quick Start: Running Any Phase
 
-Every lab folder includes an automated shell script `script.sh` that cleans, builds, links, and runs on sample inputs:
+Every phase folder includes an automated shell script `script.sh` that cleans, builds, links, and runs on sample inputs:
 
 ```bash
-# Lab 1: Lexer & Parser
-cd LAB1
+# Phase 1: Lexical & Syntax Analysis
+cd 01-Lexical-and-Syntax-Analysis
 bash script.sh
 
-# Lab 2: Symbol Table
-cd ../LAB2
+# Phase 2: Symbol Table Management
+cd ../02-Symbol-Table-Management
 bash script.sh
 
-# Lab 3: Semantic Analyzer
-cd ../LAB3
+# Phase 3: Semantic Analysis & Type Checking
+cd ../03-Semantic-Analysis
 bash script.sh
 
-# Lab 4: Intermediate Code Generator (Two-Pass Compiler)
-cd ../LAB4
+# Phase 4: Intermediate Code Generator (Two-Pass Compiler)
+cd ../04-Intermediate-Code-Generation
 bash script.sh
 ```
 
@@ -157,15 +157,15 @@ bash script.sh
 Compiler-design/
 ├── .gitignore
 ├── README.md                                          # Master repository documentation
-├── LAB1/                                              # Lab 1: Lexical & Syntax Analysis
+├── 01-Lexical-and-Syntax-Analysis/                    # Phase 1: Scanning & Parsing
 │   ├── README.md
 │   ├── lexical_analyzer.l
 │   ├── syntax_analyzer.y
 │   ├── symbol_info.h
 │   ├── input.txt
 │   ├── script.sh
-│   └── *.pdf                                          # Lab specification and grammar reference
-├── LAB2/                                              # Lab 2: Symbol Table Management
+│   └── *.pdf                                          # Phase specification and grammar reference
+├── 02-Symbol-Table-Management/                        # Phase 2: Hierarchical Symbol Table
 │   ├── README.md
 │   ├── lexical_analyzer.l
 │   ├── syntax_analyzer.y
@@ -175,7 +175,7 @@ Compiler-design/
 │   ├── script.sh
 │   ├── InputOutput/                                   # Benchmark tests & reference logs
 │   └── *.pdf
-├── LAB3/                                              # Lab 3: Semantic Analysis & Type Checking
+├── 03-Semantic-Analysis/                              # Phase 3: Semantic Validation & Type Checking
 │   ├── README.md
 │   ├── viva_prep.md                                   # Comprehensive viva revision guide
 │   ├── lexical_analyzer.l
@@ -187,7 +187,7 @@ Compiler-design/
 │   ├── script.sh
 │   ├── InputOutput/                                   # Test suite with semantic error benchmarks
 │   └── *.pdf
-└── LAB4/                                              # Lab 4: Two-Pass Compiler & Three-Address Code
+└── 04-Intermediate-Code-Generation/                   # Phase 4: Two-Pass Compiler & Three-Address Code
     ├── README.md
     ├── LAB4_COMPLETE_TUTORIAL_AND_VIVA_GUIDE.md       # Exhaustive viva guide & tutorial
     ├── LAB4_VIVA_GUIDE.md                             # Quick viva cheat sheet
