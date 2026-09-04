@@ -204,11 +204,3 @@ Compiler-design/
 ```
 
 ---
-
-## 👨‍💻 Author & Course Information
-
-- **Student Name**: Ishmam Rashid Bhuiyan
-- **Student ID**: 22201161
-- **Course**: CSE420 — Compiler Design
-- **Department**: Department of Computer Science and Engineering (CSE)
-- **Institution**: BRAC University
